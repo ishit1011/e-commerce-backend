@@ -13,3 +13,5 @@ router.get('/:id',async(req,res)=>{
     const singleProduct = await product.findById(req.params.id);
     res.json(singleProduct);
 })
+
+module.exports = router;
