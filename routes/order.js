@@ -92,14 +92,36 @@ router.get("/rider", authenticate, isRider, async (req, res) => {
 
 // RIDER: Change status --> id = order ID
 router.patch("/rider/:id", authenticate, isRider, async (req, res) => {
-  const order = await Order.findById(req.params.id);
-  if (order.assignedRider.toString() !== req.user._id.toString()) {
-    res.status(403).json({ error: "Not your order" });
-    return;
+  try {
+    const { status } = req.body;
+
+    // Validate status
+    if (!status || !allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        error: `Invalid status. Allowed statuses: ${allowedStatuses.join(", ")}`
+      });
+    }
+
+    // Find order
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    // Check rider authorization
+    if (order.assignedRider.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "You are not authorized to update this order" });
+    }
+
+    // Update status
+    order.status = status;
+    await order.save();
+
+    res.status(200).json({ message: "Order status updated", order });
+  } catch (err) {
+    console.error("Error updating order status:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
-  order.status = req.body.status;
-  await order.save();
-  res.json(order);
 });
 
 module.exports = router;
