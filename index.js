@@ -15,7 +15,10 @@ mongoose.connect(process.env.MONGO_URI).then(()=>console.log('Mongo DB connected
 
 const app = express();
 const port = process.env.PORT || 8000;
-app.use(cors());
+app.use(cors({
+  origin: "https://e-commerce-frontend-delta-rose.vercel.app", // your deployed frontend URL
+  credentials: true, // if you use cookies or auth headers
+}));
 app.use(express.json());
 app.use(cookieParser());
 
