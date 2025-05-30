@@ -91,21 +91,29 @@ async function seed() {
 
   await Product.insertMany(products);
 
-  const admin = await User.create({
+    const admin = await User.create({
     email: "singhishit.06@gmail.com", // Admin
     role: "admin",
   });
 
-  const rider = await User.create({
+  const rider1 = await User.create({
     email: "isingh2_be21@thapar.edu", // Rider
     role: "rider",
   });
 
+  const rider2 = await User.create({
+    email: "crossbaredits@gmail.com",
+    role: "rider",
+  });
+
+
   await ApprovedEmail.insertMany([
     { email: "singhishit.06@gmail.com" }, // Admin
-    { email: "isingh2_be21@thapar.edu" }, // Rider
+    { email: "isingh2_be21@thapar.edu" }, // Rider 1
+    { email: "crossbaredits@gmail.com" },      // Rider 2
     { email: "ishit.singh003@gmail.com" }, // Regular user
   ]);
+
 
   console.log("Seeding complete");
   process.exit();
