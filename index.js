@@ -15,10 +15,26 @@ mongoose.connect(process.env.MONGO_URI).then(()=>console.log('Mongo DB connected
 
 const app = express();
 const port = process.env.PORT || 8000;
+
+
+const allowedOrigins = [
+  "https://e-commerce-frontend-delta-rose.vercel.app", // deployed frontend
+  "http://localhost:5173" // Vite default dev server port
+];
+
 app.use(cors({
-  origin: "https://e-commerce-frontend-delta-rose.vercel.app", // your deployed frontend URL
-  credentials: true, // if you use cookies or auth headers
+  origin: function(origin, callback) {
+    // allow requests with no origin (like Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = `The CORS policy for this site does not allow access from the origin ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
