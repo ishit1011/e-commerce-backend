@@ -1,4 +1,5 @@
 const dotenv = require('dotenv')
+dotenv.config();
 const express = require('express');
 const mongoose = require('mongoose');
 const orderRoutes = require('./routes/order');
@@ -9,7 +10,6 @@ const userRoutes = require('./routes/user')
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-dotenv.config();
 
 mongoose.connect(process.env.MONGO_URI).then(()=>console.log('Mongo DB connected')).catch(()=>console.log('DB not connected'));
 
