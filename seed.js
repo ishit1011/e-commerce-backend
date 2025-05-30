@@ -107,7 +107,7 @@ async function seed() {
   });
 
   const rider2 = await User.create({
-    email: "crossbaredits@gmail.com",
+    email: "abhishek@zuvees.ae",
     role: "rider",
   });
 
@@ -116,7 +116,7 @@ async function seed() {
     { email: "singhishit.06@gmail.com" }, // Admin 1
     { email: "abhishek@zuvees.com" }, // Admin 2
     { email: "isingh2_be21@thapar.edu" }, // Rider 1
-    { email: "crossbaredits@gmail.com" },      // Rider 2
+    { email: "abhishek@zuvees.ae" },      // Rider 2
     { email: "ishit.singh003@gmail.com" }, // Regular user
   ]);
 
